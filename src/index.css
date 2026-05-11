@@ -374,9 +374,47 @@ body {
   color: var(--text-muted);
 }
 
-/* Summary Section */
-.summary-section {
-  animation: fadeIn 0.5s ease-out;
+/* Game Over Bar */
+.game-over-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.game-over-label {
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.game-over-label.win { color: var(--correct); }
+.game-over-label.loss { color: var(--incorrect); }
+
+.view-results-btn {
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.view-results-btn:hover {
+  background: var(--accent-dim);
+}
+
+/* Summary Modal */
+.modal-summary {
+  max-width: 520px;
 }
 
 .result-banner {

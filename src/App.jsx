@@ -256,35 +256,50 @@ function Game({ puzzle, puzzleNumber, mode }) {
         </form>
       )}
 
+      {gameOver && (
+        <div className="game-over-bar">
+          <span className={`game-over-label ${won ? 'win' : 'loss'}`}>
+            {won ? `✓ ${puzzle.answer}` : `✗ ${puzzle.answer}`}
+          </span>
+          <button className="view-results-btn" onClick={() => setShowSummary(true)}>
+            View Results
+          </button>
+        </div>
+      )}
+
       {showSummary && (
-        <div className="summary-section">
-          <div className={`result-banner ${won ? 'win' : 'loss'}`}>
-            {won ? (
-              <>
-                <span className="result-emoji">🎉</span>
-                <span>Correct! You got it in {guesses.length} guess{guesses.length !== 1 ? 'es' : ''}!</span>
-              </>
-            ) : (
-              <>
-                <span className="result-emoji">😔</span>
-                <span>The answer was: <strong>{puzzle.answer}</strong></span>
-              </>
-            )}
-          </div>
+        <div className="modal-overlay" onClick={() => setShowSummary(false)}>
+          <div className="modal modal-summary" onClick={(e) => e.stopPropagation()}>
+            <button className="modal-close" onClick={() => setShowSummary(false)}>×</button>
 
-          <div className="answer-reveal">
-            <h3>{puzzle.answer}</h3>
-          </div>
+            <div className={`result-banner ${won ? 'win' : 'loss'}`}>
+              {won ? (
+                <>
+                  <span className="result-emoji">🎉</span>
+                  <span>Correct! You got it in {guesses.length} guess{guesses.length !== 1 ? 'es' : ''}!</span>
+                </>
+              ) : (
+                <>
+                  <span className="result-emoji">😔</span>
+                  <span>The answer was: <strong>{puzzle.answer}</strong></span>
+                </>
+              )}
+            </div>
 
-          <div className="diagnosis-summary">
-            <h4>Diagnosis Summary</h4>
-            <p>{puzzle.summary}</p>
-          </div>
+            <div className="answer-reveal">
+              <h3>{puzzle.answer}</h3>
+            </div>
 
-          <div className="share-section">
-            <button onClick={handleShare} className="share-btn">
-              {copied ? 'Copied!' : 'Share Results'}
-            </button>
+            <div className="diagnosis-summary">
+              <h4>Diagnosis Summary</h4>
+              <p>{puzzle.summary}</p>
+            </div>
+
+            <div className="share-section">
+              <button onClick={handleShare} className="share-btn">
+                {copied ? 'Copied!' : 'Share Results'}
+              </button>
+            </div>
           </div>
         </div>
       )}
