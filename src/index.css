@@ -318,6 +318,55 @@ body {
   cursor: not-allowed;
 }
 
+/* Autocomplete */
+.autocomplete-wrapper {
+  flex: 1;
+  position: relative;
+}
+
+.autocomplete-wrapper .guess-input {
+  width: 100%;
+}
+
+.autocomplete-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  overflow: hidden;
+  z-index: 50;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  animation: fadeIn 0.12s ease-out;
+}
+
+.autocomplete-item {
+  padding: 11px 16px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  color: var(--text-dim);
+  border-bottom: 1px solid var(--border);
+  transition: background 0.1s, color 0.1s;
+}
+
+.autocomplete-item:last-child {
+  border-bottom: none;
+}
+
+.autocomplete-item:hover,
+.autocomplete-item.active {
+  background: var(--bg-card-hover);
+  color: var(--text);
+}
+
+.autocomplete-highlight {
+  color: var(--accent);
+  font-weight: 700;
+  background: none;
+}
+
 .guesses-remaining {
   text-align: center;
   margin-top: 8px;

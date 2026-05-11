@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
-import { getDailyPuzzle, getAllPuzzles } from './puzzles'
+import { getDailyPuzzle, getAllPuzzles, getAllAnswers } from './puzzles'
 
 const MAX_GUESSES = 6
 
@@ -37,6 +37,100 @@ function saveStats(stats) {
   try {
     localStorage.setItem('gynordle_stats', JSON.stringify(stats))
   } catch {}
+}
+
+const ALL_ANSWERS = getAllAnswers()
+
+function highlightMatch(text, query) {
+  if (!query.trim()) return text
+  const idx = text.toLowerCase().indexOf(query.toLowerCase())
+  if (idx === -1) return text
+  return (
+    <>
+      {text.slice(0, idx)}
+      <mark className="autocomplete-highlight">{text.slice(idx, idx + query.length)}</mark>
+      {text.slice(idx + query.length)}
+    </>
+  )
+}
+
+function AutocompleteInput({ value, onChange, onSelect, placeholder, inputRef }) {
+  const [open, setOpen] = useState(false)
+  const [activeIndex, setActiveIndex] = useState(-1)
+  const containerRef = useRef(null)
+
+  const suggestions = value.trim()
+    ? ALL_ANSWERS.filter(a => a.toLowerCase().includes(value.toLowerCase())).slice(0, 8)
+    : []
+
+  useEffect(() => {
+    setOpen(suggestions.length > 0)
+    setActiveIndex(-1)
+  }, [value])
+
+  useEffect(() => {
+    function onMouseDown(e) {
+      if (containerRef.current && !containerRef.current.contains(e.target)) {
+        setOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', onMouseDown)
+    return () => document.removeEventListener('mousedown', onMouseDown)
+  }, [])
+
+  function handleKeyDown(e) {
+    if (!open) return
+    if (e.key === 'ArrowDown') {
+      e.preventDefault()
+      setActiveIndex(i => Math.min(i + 1, suggestions.length - 1))
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault()
+      setActiveIndex(i => Math.max(i - 1, -1))
+    } else if (e.key === 'Enter' && activeIndex >= 0) {
+      e.preventDefault()
+      onSelect(suggestions[activeIndex])
+      setOpen(false)
+    } else if (e.key === 'Escape') {
+      setOpen(false)
+      setActiveIndex(-1)
+    }
+  }
+
+  return (
+    <div className="autocomplete-wrapper" ref={containerRef}>
+      <input
+        ref={inputRef}
+        type="text"
+        value={value}
+        onChange={onChange}
+        onKeyDown={handleKeyDown}
+        onFocus={() => suggestions.length > 0 && setOpen(true)}
+        placeholder={placeholder}
+        className="guess-input"
+        autoComplete="off"
+        autoCapitalize="off"
+        spellCheck="false"
+      />
+      {open && (
+        <div className="autocomplete-dropdown">
+          {suggestions.map((s, i) => (
+            <div
+              key={s}
+              className={`autocomplete-item${i === activeIndex ? ' active' : ''}`}
+              onMouseDown={(e) => {
+                e.preventDefault()
+                onSelect(s)
+                setOpen(false)
+              }}
+              onMouseEnter={() => setActiveIndex(i)}
+            >
+              {highlightMatch(s, value)}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  )
 }
 
 function Game({ puzzle, puzzleNumber, mode }) {
@@ -145,16 +239,12 @@ function Game({ puzzle, puzzleNumber, mode }) {
       {!gameOver && (
         <form onSubmit={handleSubmit} className="guess-form">
           <div className={`input-wrapper ${shake ? 'shake' : ''}`}>
-            <input
-              ref={inputRef}
-              type="text"
+            <AutocompleteInput
+              inputRef={inputRef}
               value={currentGuess}
               onChange={(e) => setCurrentGuess(e.target.value)}
+              onSelect={(val) => setCurrentGuess(val)}
               placeholder="Enter your diagnosis..."
-              className="guess-input"
-              autoComplete="off"
-              autoCapitalize="off"
-              spellCheck="false"
             />
             <button type="submit" className="submit-btn" disabled={!currentGuess.trim()}>
               Submit

@@ -579,4 +579,8 @@ export function getAllPuzzles() {
   return puzzles
 }
 
+export function getAllAnswers() {
+  return [...new Set(puzzles.map(p => p.answer))].sort()
+}
+
 export default puzzles
