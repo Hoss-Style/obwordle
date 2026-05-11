@@ -1,0 +1,28 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__Claude_in_Chrome__tabs_context_mcp",
+      "WebFetch(domain:doctordle.org)",
+      "WebSearch",
+      "WebFetch(domain:world3dmap.com)",
+      "WebFetch(domain:www.youtube.com)",
+      "WebFetch(domain:app.oraai.com)",
+      "WebFetch(domain:heydoctor.io)",
+      "WebFetch(domain:dles.gg)",
+      "WebFetch(domain:thebeastboss.neocities.org)",
+      "WebFetch(domain:doctordle.net)",
+      "WebFetch(domain:disordle.com)",
+      "WebFetch(domain:www.threads.com)",
+      "Bash(npm install *)",
+      "Bash(mkdir -p /Users/danielhossa/obwordle/.claude)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(npm run *)",
+      "Bash(gh repo *)",
+      "Bash(git init *)",
+      "Bash(git remote *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git branch *)"
+    ]
+  }
+}
