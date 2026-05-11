@@ -8,7 +8,7 @@ function normalizeAnswer(str) {
 }
 
 function getStorageKey(puzzleNumber) {
-  return `obwordle_puzzle_${puzzleNumber}`
+  return `gynordle_puzzle_${puzzleNumber}`
 }
 
 function loadGameState(puzzleNumber) {
@@ -27,7 +27,7 @@ function saveGameState(puzzleNumber, state) {
 
 function loadStats() {
   try {
-    const saved = localStorage.getItem('obwordle_stats')
+    const saved = localStorage.getItem('gynordle_stats')
     if (saved) return JSON.parse(saved)
   } catch {}
   return { played: 0, won: 0, streak: 0, maxStreak: 0, distribution: [0, 0, 0, 0, 0, 0] }
@@ -35,7 +35,7 @@ function loadStats() {
 
 function saveStats(stats) {
   try {
-    localStorage.setItem('obwordle_stats', JSON.stringify(stats))
+    localStorage.setItem('gynordle_stats', JSON.stringify(stats))
   } catch {}
 }
 
@@ -102,7 +102,7 @@ function Game({ puzzle, puzzleNumber, mode }) {
       }
       return '⬛'
     })
-    const text = `OBWordle #${puzzleNumber} 🩺\n${rows.join('\n')}\nhttps://obwordle-hossa28-8746s-projects.vercel.app`
+    const text = `GYNordle #${puzzleNumber} 🩺\n${rows.join('\n')}\nhttps://gynordle.com`
     navigator.clipboard.writeText(text).then(() => {
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
@@ -353,7 +353,7 @@ export default function App() {
         <div className="header-center" onClick={() => { setView('daily'); setArchivePuzzle(null) }} style={{ cursor: 'pointer' }}>
           <h1 className="title">
             <span className="title-icon">🩺</span>
-            OBWordle
+            GYNordle
           </h1>
           <p className="subtitle">The OB/GYN Diagnosis Game</p>
         </div>
