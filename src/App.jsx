@@ -102,7 +102,7 @@ function Game({ puzzle, puzzleNumber, mode }) {
       }
       return '⬛'
     })
-    const text = `OBWordle #${puzzleNumber} 🩺\n${rows.join('\n')}\nhttps://obwordle.vercel.app`
+    const text = `OBWordle #${puzzleNumber} 🩺\n${rows.join('\n')}\nhttps://obwordle-hossa28-8746s-projects.vercel.app`
     navigator.clipboard.writeText(text).then(() => {
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
