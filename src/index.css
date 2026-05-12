@@ -415,6 +415,7 @@ body {
 /* Summary Modal */
 .modal-summary {
   max-width: 520px;
+  padding-top: 48px;
 }
 
 .result-banner {
